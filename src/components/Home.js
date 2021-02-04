@@ -1,17 +1,16 @@
 import React, {useEffect} from 'react';
-import {View, Image, StyleSheet} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
-import {FlatGrid} from 'react-native-super-grid';
+import {View, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 //components
+import Search from './Search';
+import Show from '../components/Show';
 import Loading from '../components/common/Loading';
 import Error from '../components/common/Error';
 //reducer
 import {getImages} from '../util/reducer';
-import Search from './Search';
 
-const Home = () => {
-  const {isLoaded, data, error} = useSelector((root) => root.getImages);
+const Home = ({navigation}) => {
+  const {isLoaded, data, error} = useSelector((root) => root.images);
 
   const dispatch = useDispatch();
 
@@ -30,17 +29,7 @@ const Home = () => {
   return (
     <View style={styles.view}>
       <Search />
-      <FlatGrid
-        itemDimension={120}
-        data={data.hits}
-        renderItem={({item}) => (
-          <Image
-            style={styles.image}
-            source={{uri: item.webformatURL}}
-            onTouchEnd={() => alert(item.id)}
-          />
-        )}
-      />
+      <Show data={data.hits} navigation={navigation} />
     </View>
   );
 };
@@ -48,17 +37,6 @@ const Home = () => {
 const styles = StyleSheet.create({
   view: {
     paddingBottom: 55,
-  },
-  textInput: {
-    padding: 15,
-  },
-  buttonsView: {
-    flexDirection: 'row',
-  },
-  image: {
-    width: '100%',
-    height: 125,
-    borderRadius: 5,
   },
 });
 

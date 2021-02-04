@@ -1,10 +1,19 @@
 import React, {useState} from 'react';
-import {View,TextInput, StyleSheet} from 'react-native';
+import {View, TextInput, StyleSheet} from 'react-native';
+import {useDispatch} from 'react-redux';
+//reducer
+import {searchImages} from '../util/reducer';
 
 const Search = () => {
   const [q, setQ] = useState('');
 
-  const handleChange = (e) => setQ(e.target.value);
+  const dispatch = useDispatch();
+
+  const handleChangeText = (q) => setQ(q);
+
+  const handleSubmitEditing = () => {
+    dispatch(searchImages(q));
+  };
 
   return (
     <View>
@@ -12,9 +21,9 @@ const Search = () => {
         style={styles.textInput}
         placeholder="Search Your Image"
         value={q}
-        onChange={handleChange}
+        onChangeText={handleChangeText}
+        onSubmitEditing={handleSubmitEditing}
       />
-      
     </View>
   );
 };
