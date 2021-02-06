@@ -4,8 +4,8 @@ import {useDispatch, useSelector} from 'react-redux';
 //components
 import Search from './Search';
 import Show from '../components/Show';
-import Loading from '../components/common/Loading';
-import Error from '../components/common/Error';
+import Loading from '../components/Loading';
+import Error from '../components/Error';
 //reducer
 import {getImages} from '../util/reducer';
 
