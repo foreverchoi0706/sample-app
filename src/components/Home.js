@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector,shallowEqual} from 'react-redux';
 //components
 import Search from './Search';
 import Show from '../components/Show';
@@ -10,7 +10,7 @@ import Error from '../components/Error';
 import {getImages} from '../util/reducer';
 
 const Home = ({navigation}) => {
-  const {isLoaded, data, error} = useSelector((root) => root.images);
+  const {isLoaded, data, error} = useSelector((root) => root.images,shallowEqual);
 
   const dispatch = useDispatch();
 

@@ -1,19 +1,40 @@
-import React from 'react';
-import {View, Image, Text, StyleSheet, Button, Linking} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {FlatGrid} from 'react-native-super-grid';
+import React, {useEffect} from 'react';
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  Button,
+  Linking,
+  ScrollView,
+} from 'react-native';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+//reducer
+import {getRelevants} from '../util/reducer';
+import Loading from './Loading';
+import Show from './Show';
 
-const tagStyle = () => {
-  return {
-    borderRadius: 5,
-    backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16),
-    color: 'white',
-    marginRight: 10,
-    padding: 5,
-  };
-};
+const tagStyle = () => ({
+  borderRadius: 5,
+  backgroundColor:
+    '#' + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6),
+  color: 'white',
+  marginRight: 10,
+  padding: 5,
+});
 
-const Detail = ({route}) => {
+const Detail = ({navigation, route}) => {
+  const {isLoaded, data, error} = useSelector(
+    (root) => root.relevants,
+    shallowEqual,
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getRelevants(route.params.tags.split(',')[0]));
+  }, [route.params.id, dispatch]);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imgs}>
@@ -56,12 +77,9 @@ const Detail = ({route}) => {
         onPress={() => Linking.openURL(route.params.pageURL)}></Button>
 
       <View>
-        <Text>How Is It?</Text>
-        {/* <FlatGrid
-          itemDimension={120}
-          data={[1, 2, 3, 4]}
-          renderItem={({item}) => <Text>{item}</Text>}
-        /> */}
+        {!isLoaded && <Loading />}
+        {error && <Error />}
+        {data && <Show data={data.hits} navigation={navigation} />}
       </View>
     </ScrollView>
   );
@@ -86,8 +104,8 @@ const styles = StyleSheet.create({
     marginRight: 5,
     position: 'absolute',
     zIndex: 999,
-    top: 10,
-    right: 10,
+    top: 5,
+    right: 5,
   },
   tagsAndUserName: {
     flexDirection: 'row',
@@ -113,6 +131,11 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontWeight: 'bold',
+  },
+  relevantImg: {
+    width: '100%',
+    height: 125,
+    borderRadius: 5,
   },
 });
 
