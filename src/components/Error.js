@@ -1,9 +1,20 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, StyleSheet} from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const Error = () => {
-  <View>
-    <Text>Error</Text>
+  <View style={styles.view}>
+    <MaterialIcons name="error" size={30} />
   </View>;
 };
+
+const styles = StyleSheet.create({
+  view: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
 export default Error;

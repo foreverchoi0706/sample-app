@@ -1,10 +1,20 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Loading = () => (
-  <View>
-    <Text>Loading</Text>
+  <View style={styles.view}>
+    <AntDesign name="clockcircle" size={30} />
   </View>
 );
+
+const styles = StyleSheet.create({
+  view: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default Loading;

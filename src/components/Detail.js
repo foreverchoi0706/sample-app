@@ -9,6 +9,9 @@ import {
   ScrollView,
 } from 'react-native';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 //reducer
 import {getRelevants} from '../util/reducer';
 import Loading from './Loading';
@@ -36,7 +39,11 @@ const Detail = ({navigation, route}) => {
   }, [route.params.id, dispatch]);
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
+      <Button
+        title="Go To Pixabay"
+        onPress={() => Linking.openURL(route.params.pageURL)}
+      />
       <View style={styles.imgs}>
         <Image
           source={{
@@ -58,30 +65,42 @@ const Detail = ({navigation, route}) => {
             </Text>
           ))}
         </View>
-        <Text style={styles.userName}>Artist : {route.params.user}</Text>
+        <Text style={styles.userName}>
+          <FontAwesome name="user" size={12} color="#000000" />
+          &nbsp;
+          {route.params.user}
+        </Text>
       </View>
 
       <View style={styles.info}>
-        <Text style={styles.infoText}> like : {route.params.likes}</Text>
-        <Text style={styles.infoText}> views : {route.params.views}</Text>
         <Text style={styles.infoText}>
-          downloads : {route.params.downloads}
+          <AntDesign name="like1" size={12} color="#000000" />
+          &nbsp;
+          {route.params.likes}
         </Text>
         <Text style={styles.infoText}>
-          favorites : {route.params.favorites}
+          <MaterialIcons name="remove-red-eye" size={12} color="#000000" />
+          &nbsp;
+          {route.params.views}
+        </Text>
+        <Text style={styles.infoText}>
+          <MaterialIcons name="file-download" size={12} color="#000000" />
+          &nbsp;
+          {route.params.downloads}
+        </Text>
+        <Text style={styles.infoText}>
+          <MaterialIcons name="favorite" size={12} color="#000000" />
+          &nbsp;
+          {route.params.favorites}
         </Text>
       </View>
-
-      <Button
-        title="Go To Pixabay"
-        onPress={() => Linking.openURL(route.params.pageURL)}></Button>
 
       <View>
         {!isLoaded && <Loading />}
         {error && <Error />}
         {data && <Show data={data.hits} navigation={navigation} />}
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -127,7 +146,7 @@ const styles = StyleSheet.create({
   },
   info: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
   infoText: {
     fontWeight: 'bold',
